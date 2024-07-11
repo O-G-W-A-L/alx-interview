@@ -1,21 +1,29 @@
 #!/usr/bin/python3
-'''Minimum number of operations
+'''The minimum operations coding challenge.
 '''
 
-def minOperations(n: int) -> int:
-    '''Calculate the minimum number of operations'''
+
+def minOperations(n):
+    '''Computes the fewest number of operations needed to result
+    in exactly n H characters.
+    '''
+    if not isinstance(n, int):
+        return 0
     if n <= 1:
         return 0
-    
-    current = 1
-    holder = 0
-    count = 0
-    
-    while current < n:
-        if n % current == 0:
-            holder = current
-            count += 1
-        current += holder
-        count += 1
-
-    return count
+    ops_count = 0
+    clipboard = 0
+    done = 1
+    while done < n:
+        if clipboard == 0:
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+        elif n - done > 0 and (n - done) % done == 0:
+            clipboard = done
+            done += clipboard
+            ops_count += 2
+        elif clipboard > 0:
+            done += clipboard
+            ops_count += 1
+    return ops_count
