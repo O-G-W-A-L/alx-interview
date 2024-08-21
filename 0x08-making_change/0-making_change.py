@@ -9,6 +9,11 @@ def makeChange(coins, total):
     """
     if total <= 0:
         return 0
+    if not coins:
+        return -1
+    coins = [coin for coin in coins if coin > 0]
+    if not coins:
+        return -1
     dp = [float('inf')] * (total + 1)
     dp[0] = 0
     for coin in coins:
