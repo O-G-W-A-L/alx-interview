@@ -9,15 +9,18 @@ def makeChange(coins, total):
     """
     if total <= 0:
         return 0
-    if not coins:
+
+    sorted_coins = sorted(coins, reverse=True)
+    coins_count = 0
+    rem = total
+
+    for coin in sorted_coins:
+        if rem == 0:
+            break
+        if coin <= rem:
+            num_coins = rem // coin
+            rem -= num_coins * coin
+            coins_count += num_coins
+    if rem != 0:
         return -1
-    coins = [coin for coin in coins if coin > 0]
-    if not coins:
-        return -1
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
-    for coin in coins:
-        for amount in range(coin, total + 1):
-            if dp[amount - coin] != float('inf'):
-                dp[amount] = min(dp[amount], dp[amount - coin] + 1)
-    return dp[total] if dp[total] != float('inf') else -1
+    return coins_count
